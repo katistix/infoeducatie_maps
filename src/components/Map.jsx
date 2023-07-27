@@ -8,16 +8,19 @@ import {
     Popup,
     Tooltip,
     useMap,
+    Polyline,
     useMapEvents,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useTraffic } from "../hooks/useTraffic";
 import L from "leaflet";
+import useNavigationRoute from "../hooks/useNavigationRoute";
+import polyline from "polyline";
 
 const customMarker = new L.icon({
     iconUrl: "https://unpkg.com/leaflet@1.5.1/dist/images/marker-icon.png",
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
+    iconSize: [25, 41],
+    iconAnchor: [10, 41],
     popupAnchor: [0, 0],
 });
 
@@ -82,11 +85,28 @@ function LocationMarker() {
     // );
 }
 
-const MapComponent = () => {
+const MapComponent = ({ route }) => {
     const traffic = useTraffic();
+
     useEffect(() => {
-        console.log(traffic);
-    }, [traffic]);
+        console.log("route:", route);
+    }, [route]);
+
+    const navigator = useNavigationRoute();
+    useEffect(() => {
+        if (!route) {
+            return;
+        }
+
+        // navigator.getRoute(
+        //     { latitude: 26.071292, longitude: 44.412326 },
+        //     { latitude: 26.074725, longitude: 44.483403 }
+        // );
+        navigator.getRoute(
+            { latitude: route[0][0], longitude: route[0][1] },
+            { latitude: route[1][0], longitude: route[1][1] }
+        );
+    }, [route]);
 
     const icon = (location) => {
         if (location) {
@@ -109,7 +129,7 @@ const MapComponent = () => {
             className="z-0 w-full h-full"
             center={[45.9418997, 25.0200795]}
             zoom={5}
-            scrollWheelZoom={true}
+            scrollWheelZoom={false}
         >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
@@ -135,6 +155,33 @@ const MapComponent = () => {
                         </a>
                     </Marker>
                 ))}
+
+            {/* Polyline from navigator.routeCoordinates */}
+            {navigator.routeCoordinates && (
+                <>
+                    {/* Ending point */}
+                    <Marker
+                        position={[
+                            navigator.routeCoordinates[
+                                navigator.routeCoordinates.length - 1
+                            ][0],
+                            navigator.routeCoordinates[
+                                navigator.routeCoordinates.length - 1
+                            ][1],
+                        ]}
+                        icon={customMarker}
+                    >
+                        <Popup>
+                            <h2>Destination</h2>
+                        </Popup>
+                    </Marker>
+                    <Polyline
+                        pathOptions={{ color: "blue" }}
+                        positions={navigator.routeCoordinates}
+                    />
+                </>
+            )}
+
             {/* <LocationMarker /> */}
         </MapContainer>
     );
