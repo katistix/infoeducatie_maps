@@ -28,6 +28,27 @@ const greenIcon = new L.Icon({
     popupAnchor: [0, 0],
 });
 
+const yellowIcon = new L.Icon({
+    iconUrl: "/yellow.png",
+    iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, 0],
+});
+
+const orangeIcon = new L.Icon({
+    iconUrl: "/orange.png",
+    iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, 0],
+});
+
+const redIcon = new L.Icon({
+    iconUrl: "/red.png",
+    iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, 0],
+});
+
 function LocationMarker() {
     const [position, setPosition] = useState(null);
     const [bbox, setBbox] = useState([]);
@@ -67,11 +88,27 @@ const MapComponent = () => {
         console.log(traffic);
     }, [traffic]);
 
+    const icon = (location) => {
+        if (location) {
+            if (location.traffic < 5) {
+                return greenIcon;
+            } else if (location.traffic < 10) {
+                return yellowIcon;
+            } else if (location.traffic < 15) {
+                return orangeIcon;
+            } else {
+                return redIcon;
+            }
+        }
+
+        return greenIcon;
+    };
+
     return (
         <MapContainer
             className="z-0 w-full h-full"
             center={[45.9418997, 25.0200795]}
-            zoom={13}
+            zoom={5}
             scrollWheelZoom={true}
         >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -81,7 +118,8 @@ const MapComponent = () => {
                 traffic.map((point, index) => (
                     <Marker
                         position={[point.latitude, point.longitude]}
-                        icon={greenIcon}
+                        icon={icon(point)}
+                        key={index}
                         eventHandlers={{
                             click: (e) => {
                                 console.log("marker clicked", e);
@@ -92,12 +130,12 @@ const MapComponent = () => {
                         <a href={point.link} key={index}>
                             <Tooltip>
                                 <h2>{point.name}</h2>
-                                <p>{point.total_cars} vehicles</p>
+                                <p>Traffic score: {point.traffic}</p>
                             </Tooltip>
                         </a>
                     </Marker>
                 ))}
-            <LocationMarker />
+            {/* <LocationMarker /> */}
         </MapContainer>
     );
 };

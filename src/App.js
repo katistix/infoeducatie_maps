@@ -7,7 +7,7 @@ function App() {
         <div
             className="relative w-screen h-screen"
         >
-            <Navigator />
+            {/* <Navigator /> */}
             <MapComponent />
         </div>
     );
