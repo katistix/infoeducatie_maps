@@ -6,8 +6,9 @@ export const Navigator = ({ setRoute }) => {
     const [finish, setFinish] = useState({});
 
     const handleGoClick = () => {
+        console.log(start, finish);
         // Handle the "Go" button click event here
-        if (!start || !finish) return;
+        if (!start.lat || !start.lng || !finish.lat || !finish.lng) return;
         console.log("Start:", start);
         setRoute([start, finish]);
     };
