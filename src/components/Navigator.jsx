@@ -48,7 +48,7 @@ export const Navigator = ({ setRoute }) => {
                     />
                 </div>
                 {/* Ending location */}
-                <div className="w-full mb-2">
+                <div className="mb-2">
                     <LocationSearch
                         setCoords={setFinish}
                         placeholder="Ending location"
