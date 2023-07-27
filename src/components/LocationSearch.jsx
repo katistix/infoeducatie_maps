@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const LocationSearch = ({ setCoords }) => {
+const LocationSearch = ({ setCoords, placeholder }) => {
     const [placeName, setPlaceName] = useState("");
     const [results, setResults] = useState([]);
 
@@ -40,40 +40,32 @@ const LocationSearch = ({ setCoords }) => {
         <div className="flex flex-col items-center justify-center">
             <form
                 onSubmit={handleSearch}
-                className="flex flex-col items-center"
+                className="flex flex-col items-center w-full"
             >
                 <input
                     type="text"
                     value={placeName}
                     onChange={(e) => setPlaceName(e.target.value)}
-                    placeholder="Enter a place name"
-                    className="px-4 py-2 mb-4 border border-gray-400 rounded-lg"
+                    placeholder={placeholder}
+                    className="w-full px-4 py-2 mb-4 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
-                <button
-                    type="submit"
-                    className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                >
-                    Search
-                </button>
             </form>
 
-            <div className="flex flex-col items-center mt-8">
-                {results.length === 0 ? (
-                    <p className="text-center">No locations found.</p>
-                ) : (
-                    <div className="flex flex-col items-center">
-                        {results.map((location) => (
-                            <div
-                                key={location.place_id}
-                                className="flex justify-between w-full mb-2 cursor-pointer hover:bg-gray-200"
-                                onClick={() => handleLocationClick(location)}
-                            >
-                                <p>{location.display_name}</p>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+            {results.length !== 0 && (
+                <div className="flex flex-col items-center mt-8">
+                    {results.map((location) => (
+                        <div
+                            key={location.place_id}
+                            className="flex justify-between w-full px-4 py-2 mb-2 rounded-lg cursor-pointer hover:bg-gray-200"
+                            onClick={() => handleLocationClick(location)}
+                        >
+                            <p className="text-gray-800">
+                                {location.display_name}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

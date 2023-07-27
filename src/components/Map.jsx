@@ -85,6 +85,20 @@ function LocationMarker() {
     // );
 }
 
+const NavigationFlyTo = ({ route }) => {
+    const map = useMap();
+
+    useEffect(() => {
+        if (!route) {
+            return;
+        }
+
+        map.flyToBounds(route);
+    }, [route]);
+
+    return null;
+};
+
 const MapComponent = ({ route }) => {
     const traffic = useTraffic();
 
@@ -128,8 +142,8 @@ const MapComponent = ({ route }) => {
         <MapContainer
             className="z-0 w-full h-full"
             center={[45.9418997, 25.0200795]}
-            zoom={5}
-            scrollWheelZoom={false}
+            zoom={4}
+            scrollWheelZoom={true}
         >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
@@ -176,11 +190,16 @@ const MapComponent = ({ route }) => {
                         </Popup>
                     </Marker>
                     <Polyline
-                        pathOptions={{ color: "blue" }}
+                        pathOptions={{
+                            color: "blue",
+                            weight: 5,
+                        }}
                         positions={navigator.routeCoordinates}
                     />
                 </>
             )}
+
+            <NavigationFlyTo route={route} />
 
             {/* <LocationMarker /> */}
         </MapContainer>
