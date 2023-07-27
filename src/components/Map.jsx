@@ -24,6 +24,13 @@ const customMarker = new L.icon({
     popupAnchor: [0, 0],
 });
 
+const userMarker = new L.icon({
+    iconUrl: "/user.png",
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
+    popupAnchor: [0, 0],
+});
+
 const greenIcon = new L.Icon({
     iconUrl: "/green.png",
     iconSize: [40, 40],
@@ -69,20 +76,9 @@ function LocationMarker() {
         });
     }, [map]);
 
-    return null;
-
-    // return position === null ? null : (
-    //     <Marker position={position} icon={customMarker}>
-    //         <Popup>
-    //             You are here. <br />
-    //             Map bbox: <br />
-    //             <b>Southwest lng</b>: {bbox[0]} <br />
-    //             <b>Southwest lat</b>: {bbox[1]} <br />
-    //             <b>Northeast lng</b>: {bbox[2]} <br />
-    //             <b>Northeast lat</b>: {bbox[3]}
-    //         </Popup>
-    //     </Marker>
-    // );
+    return position === null ? null : (
+        <Marker position={position} icon={userMarker}></Marker>
+    );
 }
 
 const NavigationFlyTo = ({ route }) => {
@@ -115,11 +111,6 @@ const MapComponent = ({ route }) => {
         if (!route[0][0] || !route[0][1] || !route[1][0] || !route[1][1]) {
             return;
         }
-
-        // navigator.getRoute(
-        //     { latitude: 26.071292, longitude: 44.412326 },
-        //     { latitude: 26.074725, longitude: 44.483403 }
-        // );
         navigator.getRoute(
             { latitude: route[0][0], longitude: route[0][1] },
             { latitude: route[1][0], longitude: route[1][1] }
@@ -206,7 +197,7 @@ const MapComponent = ({ route }) => {
 
             <NavigationFlyTo route={route} />
 
-            {/* <LocationMarker /> */}
+            <LocationMarker />
         </MapContainer>
     );
 };
