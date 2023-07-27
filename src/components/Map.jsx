@@ -18,9 +18,9 @@ import useNavigationRoute from "../hooks/useNavigationRoute";
 import polyline from "polyline";
 
 const customMarker = new L.icon({
-    iconUrl: "https://unpkg.com/leaflet@1.5.1/dist/images/marker-icon.png",
-    iconSize: [25, 41],
-    iconAnchor: [10, 41],
+    iconUrl: "/default.png",
+    iconSize: [60, 60],
+    iconAnchor: [30, 39],
     popupAnchor: [0, 0],
 });
 
@@ -100,7 +100,7 @@ const NavigationFlyTo = ({ route }) => {
 };
 
 const MapComponent = ({ route }) => {
-    const traffic = useTraffic();
+    const { traffic, updateTraffic } = useTraffic();
 
     useEffect(() => {
         console.log("route:", route);
@@ -112,6 +112,10 @@ const MapComponent = ({ route }) => {
             return;
         }
 
+        if (!route[0][0] || !route[0][1] || !route[1][0] || !route[1][1]) {
+            return;
+        }
+
         // navigator.getRoute(
         //     { latitude: 26.071292, longitude: 44.412326 },
         //     { latitude: 26.074725, longitude: 44.483403 }
@@ -120,6 +124,7 @@ const MapComponent = ({ route }) => {
             { latitude: route[0][0], longitude: route[0][1] },
             { latitude: route[1][0], longitude: route[1][1] }
         );
+        updateTraffic();
     }, [route]);
 
     const icon = (location) => {
@@ -191,8 +196,8 @@ const MapComponent = ({ route }) => {
                     </Marker>
                     <Polyline
                         pathOptions={{
-                            color: "blue",
-                            weight: 5,
+                            color: "#4f46e5",
+                            weight: 6,
                         }}
                         positions={navigator.routeCoordinates}
                     />

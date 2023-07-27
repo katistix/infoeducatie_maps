@@ -37,6 +37,16 @@ export const Navigator = ({ setRoute }) => {
                     Go
                 </button>
             </div>
+            {/* Focus on route (if there's one)
+            {start && finish && (
+                <div className="fixed z-10 p-4 bg-white rounded-lg shadow-lg max-md:hidden w-72 right-4 top-4">
+                    <div className="flex flex-col items-center justify-center">
+                        <p className="mb-2 text-lg font-semibold text-gray-800">
+                            Route
+                        </p>
+                        <p className="text-sm text-gray-600">
+                            {start.display_name} → {finish.display_name}
+            } */}
 
             {/* Mobile */}
             <div className="fixed bottom-0 z-10 w-screen p-4 bg-white shadow-lg md:hidden">

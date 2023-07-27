@@ -10,6 +10,10 @@ export const useTraffic = () => {
     const [traffic, setTraffic] = useState(null);
 
     useEffect(() => {
+        updateTraffic();
+    }, []);
+
+    const updateTraffic = () => {
         const headers = new Headers();
         // CORS
         headers.append("Access-Control-Allow-Origin", "*");
@@ -24,7 +28,7 @@ export const useTraffic = () => {
                 setTraffic(data);
             })
             .catch((err) => console.log(err));
-    }, []);
+    };
 
-    return traffic;
+    return { traffic, updateTraffic };
 };
