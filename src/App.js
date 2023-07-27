@@ -1,25 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+import MapComponent from './components/Map';
+import { Navigator } from './components/Navigator';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    return (
+        <div
+            className="relative w-screen h-screen"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+            <Navigator />
+            <MapComponent />
+        </div>
+    );
 }
 
 export default App;
